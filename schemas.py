@@ -12,7 +12,7 @@ Model name is converted to lowercase for the collection name:
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 
 # Example schemas (replace with your own):
 
@@ -37,6 +37,19 @@ class Product(BaseModel):
     price: float = Field(..., ge=0, description="Price in dollars")
     category: str = Field(..., description="Product category")
     in_stock: bool = Field(True, description="Whether product is in stock")
+
+# Kollny EXPRESS schemas
+
+class SearchLog(BaseModel):
+    """
+    Tracks ingredient searches and summary of results for Kollny EXPRESS
+    Collection name: "searchlog"
+    """
+    ingredients: List[str] = Field(..., description="Ingredients the user has")
+    healthy_only: bool = Field(False, description="If only healthy recipes were requested")
+    difficulty: Optional[str] = Field(None, description="Difficulty filter applied: easy|medium|hard or None")
+    results_count: int = Field(0, ge=0, description="Number of recipes returned")
+    client: Optional[str] = Field(None, description="Client identifier or user agent")
 
 # Add your own schemas here:
 # --------------------------------------------------
